@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "241426140537",
+    "project_id": "taskstracker",
+    "storage_bucket": "taskstracker.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241426140537:android:1fc85ec514192d56a233a8",
+        "android_client_info": {
+          "package_name": "com.example.taskstracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "241426140537-648jbq0rnlarbgcddo2bqis9a2gghgpi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.taskstracker",
+            "certificate_hash": "d1b5cbd954956eb8eb46d1e91ec43621dfaa8960"
+          }
+        },
+        {
+          "client_id": "241426140537-20m6cvu8sqsn1q1jd9d8ts39ftmadlro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXSjclPB199R3RvyoDjKD67DNLF5KM9HQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "241426140537-20m6cvu8sqsn1q1jd9d8ts39ftmadlro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
+
