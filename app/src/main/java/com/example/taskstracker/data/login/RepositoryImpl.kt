@@ -12,7 +12,6 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Co
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -22,20 +21,18 @@ import javax.inject.Inject
 class LoginRepositoryImpl@Inject constructor(
     private  val auth: FirebaseAuth,
     private val credentialRequest: GetCredentialRequest,
+    private  val credentialManager: CredentialManager,
     private val clearCredentialStateRequest: ClearCredentialStateRequest
 
 ) : LoginRepository {
-    //Implementing the handleLogin method in Repository
-    private var credentialManager: CredentialManager? = null
 
     override suspend fun handleLogin(context: Context): Flow<UiStatus<FirebaseUser>> = flow{
         emit(UiStatus.LOADING)
         try {
-            credentialManager = CredentialManager.create(context)
             auth.currentUser?.let {
                 emit(UiStatus.SUCCESS(it))
             } ?: run {
-                val credentialResult = credentialManager!!.getCredential(
+                val credentialResult = credentialManager.getCredential(
                     context,
                     credentialRequest
                 )
@@ -59,7 +56,7 @@ class LoginRepositoryImpl@Inject constructor(
         emit(UiStatus.LOADING)
         try {
             auth.signOut()
-            credentialManager?.let {
+            credentialManager.let {
                 it.clearCredentialState(clearCredentialStateRequest)
                 emit(UiStatus.SUCCESS(Unit))
             } ?: throw Exception("Credential manager doesn't exist")

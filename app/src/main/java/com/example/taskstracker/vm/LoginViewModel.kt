@@ -1,6 +1,8 @@
 package com.example.taskstracker.vm
 
+import android.content.ContentValues.TAG
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.taskstracker.data.login.LoginRepository
 import com.example.taskstracker.data.room.Task
 import com.example.taskstracker.data.room.TasksRepository
+import com.example.taskstracker.notifications.MessagingRepository
 import com.example.taskstracker.utils.UiStatus
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository,
+    private val messagingRepository: MessagingRepository,
     private val tasksRepository: TasksRepository,
     private val coroutineDispatcher: CoroutineDispatcher
 ): ViewModel() {
@@ -37,6 +41,12 @@ class LoginViewModel @Inject constructor(
 
     private val _deleteTask: MutableLiveData<UiStatus<Unit>> = MutableLiveData(UiStatus.LOADING)
     val deleteTask: LiveData<UiStatus<Unit>> get() = _deleteTask
+
+
+    //Use retrieveUserToken upon vm initialization
+     init {
+         retrieveUserToken()
+     }
 
     fun authenticate(context: Context){
         viewModelScope.launch(coroutineDispatcher) {
@@ -74,6 +84,22 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch(coroutineDispatcher) {
             tasksRepository.deleteTask(task).collect{
                 _deleteTask.postValue(it)
+            }
+        }
+    }
+
+    private fun retrieveUserToken(){
+        viewModelScope.launch(coroutineDispatcher) {
+            messagingRepository.getToken().collect{
+                when(it){
+                    is UiStatus.ERROR -> {
+                        Log.e(TAG, "Error retrieving token: ${it.error.localizedMessage}", it.error)
+                    }
+                    UiStatus.LOADING -> {}
+                    is UiStatus.SUCCESS -> {
+                        Log.d(TAG,"Retrieved user token: ${it.message}" )
+                    }
+                }
             }
         }
     }
