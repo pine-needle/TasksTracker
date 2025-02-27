@@ -51,6 +51,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("androidx.credentials:credentials:1.3.0")
     implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
+    implementation(libs.firebase.messaging)
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
     //Hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
@@ -70,10 +71,8 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
     //viewmodel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-
     //livedata
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
-
     //gson
     implementation("com.google.code.gson:gson:2.10.1")
     implementation(libs.androidx.appcompat)

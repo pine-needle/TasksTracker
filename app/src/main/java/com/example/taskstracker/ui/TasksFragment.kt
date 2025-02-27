@@ -1,11 +1,16 @@
 package com.example.taskstracker.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskstracker.R
@@ -29,6 +34,23 @@ class TasksFragment : BaseFragment() {
                 viewModel.deleteTask(task)
             }
         )
+    }
+
+    //Request Permission Launcher
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ){
+        granted ->
+        if (!granted){
+            //show when user rejects permission request
+            Toast.makeText(requireContext(), "Permission request denied", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    //onCreate
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        handlePermissions() //Handle permission
     }
 
     override fun onCreateView(
@@ -122,6 +144,18 @@ class TasksFragment : BaseFragment() {
                     findNavController().navigate(R.id.action_tasks_to_login)
                 }
             }
+        }
+    }
+
+    private fun handlePermissions()
+    {
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+          val permissions =  arrayListOf(Manifest.permission.POST_NOTIFICATIONS)
+           permissions.forEach{
+               if(checkSelfPermission(requireContext(), it) != PackageManager.PERMISSION_GRANTED){
+                   requestPermissionLauncher.launch(it)
+               }
+           }
         }
     }
 
