@@ -1,4 +1,4 @@
-package com.example.taskstracker.notifications
+package com.example.taskstracker.data.notifications
 
 import com.example.taskstracker.utils.UiStatus
 import com.google.firebase.messaging.FirebaseMessaging
@@ -9,14 +9,14 @@ import javax.inject.Inject
 
 class MessagingRepositoryImpl@Inject constructor (
     private val firebaseMessaging: FirebaseMessaging
-) : MessagingRepository{
-    override fun getToken(): Flow<UiStatus<String>> = flow{
+) : MessagingRepository {
+    override fun getToken(): Flow<UiStatus<String>> = flow {
         emit(UiStatus.LOADING)
         try {
             //Fetching token
-            val token = firebaseMessaging.token.await()
+            val token = firebaseMessaging.token.await() //async operation(Getting token data)
             emit(UiStatus.SUCCESS(token))
-        }catch (e:Exception){
+        } catch (e:Exception){
             emit(UiStatus.ERROR(e))
         }
     }

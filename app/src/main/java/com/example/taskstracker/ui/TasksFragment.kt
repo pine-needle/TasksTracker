@@ -23,28 +23,25 @@ class TasksFragment : BaseFragment() {
     private val binding by lazy {
         FragmentTasksBinding.inflate(layoutInflater)
     }
+    //Request Permission Launcher
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ){ granted ->
+        if (!granted){
+            Toast.makeText(requireContext(),"Permission not granted",Toast.LENGTH_LONG).show()
+        }
+    }
 
     private val tasksAdapter by lazy {
         TasksAdapter(
             onCompleteTask = { task ->
                 task.completed = true
-                viewModel.insertTask(task)
+                viewModel.insertTask(task, requireContext())
             },
             onDeleteTask = {task ->
                 viewModel.deleteTask(task)
             }
         )
-    }
-
-    //Request Permission Launcher
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ){
-        granted ->
-        if (!granted){
-            //show when user rejects permission request
-            Toast.makeText(requireContext(), "Permission request denied", Toast.LENGTH_LONG).show()
-        }
     }
 
     //onCreate
@@ -58,20 +55,20 @@ class TasksFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-
         binding.tasksList.apply {
             layoutManager = LinearLayoutManager(
                 requireContext(),
                 LinearLayoutManager.VERTICAL,
                 false
             )
+            //Setting adapter
             adapter = tasksAdapter
         }
-
+        //Logging out
         binding.logoutBtn.setOnClickListener {
             viewModel.logOut()
         }
-
+       //Go to add task screen
         binding.addTask.setOnClickListener {
             findNavController().navigate(R.id.action_tasks_to_add_task)
         }
@@ -79,6 +76,11 @@ class TasksFragment : BaseFragment() {
         updateTasks()
         viewModel.getTasks()
         handleLogOut()
+
+        //Crashing app
+        binding.testCrash.setOnClickListener {
+            throw RuntimeException("Test crash")
+        }
 
         return binding.root
     }

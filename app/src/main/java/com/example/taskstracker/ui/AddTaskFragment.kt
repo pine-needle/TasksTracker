@@ -1,5 +1,6 @@
 package com.example.taskstracker.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,7 +35,7 @@ class AddTaskFragment : BaseFragment() {
         binding.addTaskBtn.setOnClickListener {
             val task = verifyValues()
             if (task != null) {
-                viewModel.insertTask(task)
+                viewModel.insertTask(task, requireContext())
             } else {
                 Toast.makeText(requireContext(), "Verify your information", Toast.LENGTH_LONG).show()
             }

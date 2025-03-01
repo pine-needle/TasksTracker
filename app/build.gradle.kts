@@ -5,6 +5,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
+    alias(libs.plugins.google.firebase.crashlytics)
 
 
 }
@@ -46,35 +47,38 @@ android {
 
 dependencies {
     //Firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-auth")
-    implementation("androidx.credentials:credentials:1.3.0")
-    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.google.firebase.analytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.firebase.messaging)
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+    implementation(libs.googleid)
     //Hilt
-    implementation("com.google.dagger:hilt-android:2.51.1")
+    implementation(libs.hilt.android)
     implementation(libs.androidx.material3.android)
-    ksp("com.google.dagger:hilt-android-compiler:2.51.1")
-    //Room
-    val room_version = "2.6.1"
-    implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
+    implementation(libs.androidx.core.i18n)
+    implementation(libs.firebase.crashlytics)
+    ksp(libs.hilt.android.compiler)
+   //Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
     //RECYCLER VIEW
-    implementation("androidx.recyclerview:recyclerview:1.4.0")
+    implementation(libs.androidx.recyclerview)
     // For control over item selection of both touch and mouse driven selection
-    implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
+    implementation(libs.androidx.recyclerview.selection)
     //NAVIGATION
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     //viewmodel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     //livedata
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    //Work Manager
+    implementation(libs.androidx.work.runtime.ktx)
     //gson
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation(libs.gson)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)

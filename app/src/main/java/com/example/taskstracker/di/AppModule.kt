@@ -15,8 +15,8 @@ import com.example.taskstracker.data.room.TasksDao
 import com.example.taskstracker.data.room.TasksDatabase
 import com.example.taskstracker.data.room.TasksRepository
 import com.example.taskstracker.data.room.TasksRepositoryImpl
-import com.example.taskstracker.notifications.MessagingRepository
-import com.example.taskstracker.notifications.MessagingRepositoryImpl
+import com.example.taskstracker.data.notifications.MessagingRepository
+import com.example.taskstracker.data.notifications.MessagingRepositoryImpl
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
